@@ -1,0 +1,16 @@
+<i class="fa fa-times float-right" (click)="close()"></i>
+<h1 mat-dialog-title>Verificación de dos pasos</h1>
+<hr>
+<div class="container">
+    <div mat-dialog-content>
+        <p>Introduce el código de verificación de su teléfono que termina en xxxxxxx03</p>
+        <mat-form-field class="input-full-width">
+            <input matInput placeholder="Codigo" [(ngModel)]="code">
+        </mat-form-field>
+        <mat-error *ngIf="incorrecto">Codigo de verificación incorrecto.</mat-error>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button color="primary" class="button-width mt-5" cdkFocusInitial
+            (click)="verificar()">Verificar</button>
+    </div>
+</div>
