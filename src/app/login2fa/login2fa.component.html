@@ -1,0 +1,16 @@
+<i class="fa fa-times float-right" (click)="close()"></i>
+<h1 mat-dialog-title>{{ 'verificarEnDos' | translate }}</h1>
+<hr>
+<div class="container">
+    <div mat-dialog-content>
+        <p>{{ 'introduceCodigo'  | translate }}</p>
+        <mat-form-field class="input-full-width">
+            <input matInput placeholder="{{ 'codigo' | translate }}" [(ngModel)]="code">
+        </mat-form-field>
+        <mat-error *ngIf="incorrecto">Codigo de verificación incorrecto.</mat-error>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button color="primary" class="button-width mt-5" cdkFocusInitial
+            (click)="verificar()">{{ 'verificar' | translate }}</button>
+    </div>
+</div>
