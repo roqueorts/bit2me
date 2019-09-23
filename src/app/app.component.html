@@ -1,1 +1,9 @@
+<mat-form-field class="mt-2 ml-2">
+    <mat-label>{{ 'idioma' | translate }}</mat-label>
+    <mat-select [(value)]="activeLang" (selectionChange)="cambiar()">
+        <mat-option *ngFor="let idioma of idiomas" [value]="idioma.value">
+            {{idioma.viewValue}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
 <router-outlet></router-outlet>

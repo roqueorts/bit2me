@@ -9,11 +9,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
   declarations: [],
-  imports: [MatCardModule, MatButtonModule, MatToolbarModule, MatInputModule, MatIconModule, MatRadioModule, MatDialogModule],
-  exports: [MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatIconModule, MatRadioModule, MatDialogModule]
+  imports: [MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatIconModule, MatRadioModule, MatDialogModule,
+    MatSelectModule],
+  exports: [MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatIconModule, MatRadioModule, MatDialogModule,
+    MatSelectModule]
 })
 export class AppMaterialModule { }

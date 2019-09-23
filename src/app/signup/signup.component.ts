@@ -4,6 +4,8 @@ import { Signup } from './signup.model';
 import { SignupService } from './signup.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { TranslateService } from '@ngx-translate/core';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-signup',
@@ -17,8 +19,12 @@ export class SignupComponent implements OnInit {
   public signupForm;
   public emailFormControl;
   private user: Signup;
+  private enhorabuena: string;
+  private cuentaCreada: string;
 
-  constructor(private formBuilder: FormBuilder, private signupservice: SignupService, private router: Router) {
+  constructor(
+    private formBuilder: FormBuilder, private signupservice: SignupService, private router: Router,
+    private translate: TranslateService) {
     this.typeInput = 'password';
     this.fontIcon = 'fa-eye';
     this.signupForm = this.formBuilder.group({
@@ -50,11 +56,17 @@ export class SignupComponent implements OnInit {
     this.signupservice.signUp(this.user).subscribe((result: Signup) => {
       if (result.registered) { // Navegamos al login
         // alert('Cuenta creada');
+        this.translate.get(['enhorabuena', 'cuentaCreada']).pipe(take(1)).subscribe((resultado: any) => {
+          this.enhorabuena = resultado.enhorabuena;
+          this.cuentaCreada = resultado.cuentaCreada;
+        });
+
         Swal.fire(
-          'Enhorabuena!',
-          'Cuenta creada!',
+          this.enhorabuena,
+          this.cuentaCreada,
           'success'
         );
+
         this.router.navigate(['/login']); // Se pondría canActivate en el path usando Authservice para que no se pueda entrar directamente
       }
 

@@ -1,4 +1,12 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { take } from 'rxjs/operators';
+
+export interface Idioma {
+  value: string;
+  viewValue: string;
+}
+
 
 @Component({
   selector: 'app-root',
@@ -6,5 +14,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'bit2me';
+
+  public idiomas: Idioma[];
+  public activeLang;
+
+  constructor(private translate: TranslateService) {
+    this.activeLang = 'es';
+    translate.setDefaultLang(this.activeLang);
+    this.translate.get('idiomas').pipe(take(1)).subscribe(idiomas => this.idiomas = idiomas);
+  }
+
+  cambiar() {
+    this.translate.use(this.activeLang);
+    this.translate.get('idiomas').pipe(take(1)).subscribe(idiomas => this.idiomas = idiomas);
+  }
 }

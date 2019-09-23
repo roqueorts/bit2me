@@ -1,4 +1,4 @@
-<h2 class=" title-login">Log In</h2>
+<h2 class=" title-login">{{ tituloLogin$ | async }}</h2>
 <hr>
 
 <div class="row">
@@ -6,44 +6,46 @@
         <img src="assets/img/logo.png" alt="logo" class="img-fluid d-none d-md-block">
     </div>
     <div class="ml-4 col-md-5 mt-5">
-        <p class="lead">Introduce tu correo electrónico y contraseña para continuar.</p>
+        <p class="lead">{{ 'subtituloLogin'  | translate }}</p>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
             <mat-form-field class="input-full-width">
                 <input matInput placeholder="Email" id="email" formControlName="email">
                 <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
-                    Por favor inserte un email válido
+                    {{ 'errorEmail'  | translate }}
+
                 </mat-error>
                 <mat-error *ngIf="email.errors?.required">
-                    Email <strong>requerido</strong>
+
+                    Email <strong>{{ 'requerido'  | translate }}</strong>
                 </mat-error>
             </mat-form-field>
             <mat-form-field class="input-full-width">
-                <input matInput placeholder="Contraseña" [type]="typeInput" id="password" autocomplete="new-password"
-                    formControlName="password">
-                {{ 'password' | translate }}
+                <input matInput placeholder="{{ 'password' | translate }}" [type]="typeInput" id="password"
+                    autocomplete="new-password" formControlName="password">
+
                 <mat-error *ngIf="password.hasError('minlength') && !password.hasError('required')">
-                    Longitud mínima requerida de 4 caracteres
+                    {{ 'longMinPass' | translate }}
                 </mat-error>
                 <mat-error *ngIf="password.errors?.required">
-                    Contraseña <strong>requerida</strong>
+                    {{ 'password' | translate }} <strong>{{ 'requerida' | translate }}</strong>
                 </mat-error>
                 <button type="button" (click)="changeType()" mat-icon-button aria-label="Mostrar password" matSuffix>
                     <mat-icon fontSet="far" [fontIcon]="fontIcon"></mat-icon>
                 </button>
             </mat-form-field>
-            <mat-error *ngIf="incorrecto">Email y/o password inválidos.</mat-error>
-            <a mat-button class="float-sm-right" color="primary" routerLink=".">Recuperar contraseña</a>
-            <button mat-raised-button color="primary" class="button-width mt-5">ENTRAR</button>
-            <h5 class="text-center mt-5">¿Todavía no tienes cuenta en Bit2me?</h5>
+            <mat-error *ngIf="incorrecto">{{ 'password' | translate }}</mat-error>
+            <a mat-button class="float-sm-right" color="primary" routerLink=".">{{ 'recuperar' | translate }}</a>
+            <button mat-raised-button color="primary" class="button-width mt-5">{{ tituloLogin$ | async }}</button>
+            <h5 class="text-center mt-5">{{ 'noCuenta' | translate }}</h5>
             <button mat-stroked-button color="primary" class="button-width mt-2 border-primary-mat"
-                [routerLink]="['/signup']">REGÍSTRATE</button>
+                [routerLink]="['/signup']">{{ 'registrate'  | translate }}</button>
 
         </form>
     </div>
 </div>
 <div class="row">
     <div class="ml-4 mt-2 col-md-6">
-        <h5>Bienvenid@ al universo Blockchain.</h5>
-        <h5>Bienvenido a Bit2me.</h5>
+        <h5>{{ 'bienvenidoAl'  | translate }}</h5>
+        <h5>{{ 'bienvenidoA'  | translate }}</h5>
     </div>
 </div>

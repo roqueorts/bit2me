@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Login2faComponent } from '../login2fa/login2fa.component';
 import { LoginService } from './login.service';
 import { Login } from './login.model';
 // import { switchMap } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { take, concat } from 'rxjs/operators';
+import { Subscription, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -14,20 +16,21 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class LoginComponent implements OnInit {
 
-  public activeLang = 'en';
   public typeInput: string;
   public fontIcon: string;
   public loginForm;
   public emailFormControl;
   public incorrecto: boolean;
+  public tituloLogin: string;
+  tituloLogin$: Observable<string>;
 
   private result: boolean;
   private verificationCode: string;
+  private subscription: Subscription;
 
   constructor(
     private formBuilder: FormBuilder, public dialog: MatDialog, private loginService: LoginService,
     private translate: TranslateService) {
-    this.translate.setDefaultLang(this.activeLang);
     this.typeInput = 'password';
     this.fontIcon = 'fa-eye';
     this.loginForm = this.formBuilder.group({
@@ -43,15 +46,20 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Otra forma de coger las traducciones
+    this.tituloLogin$ = this.translate.stream('tituloLogin');
+
+    /*  Otra:
+     this.translate.get('tituloLogin').pipe(take(1)).subscribe(tituloLogin => this.tituloLogin = tituloLogin);
+     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+       this.tituloLogin = event.translations.tituloLogin;
+       // this.translate.get('tituloLogin').pipe(take(1)).subscribe(tituloLogin => this.tituloLogin = tituloLogin);
+     });*/
   }
 
   get email() { return this.loginForm.get('email'); }
   get password() { return this.loginForm.get('password'); }
 
-  public cambiarLenguaje(lang) {
-    this.activeLang = lang;
-    this.translate.use(lang);
-  }
 
   changeType() {
     if (this.typeInput === 'password') {
@@ -64,24 +72,23 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(loginData) {
-    console.log(loginData);
-    // if (this.loginForm.valid) {
-    this.loginService.checkLoginPassword(loginData.email, loginData.password).subscribe((result: Login) => {
-      console.log(result.verified);
-      if (result.verified) {
-        this.incorrecto = false;
-        const dialogRef = this.dialog.open(Login2faComponent, {
-          height: '400px',
-          width: '600px',
-          data: this.verificationCode
-        } as MatDialogConfig);
-        dialogRef.afterClosed().subscribe(code => {
-        });
-      } else if (result.errorCode === 1) {
-        this.incorrecto = true;
-      }
-    });
-    // }
+    if (this.loginForm.valid) {
+      this.loginService.checkLoginPassword(loginData.email, loginData.password).subscribe((result: Login) => {
+        console.log(result.verified);
+        if (result.verified) {
+          this.incorrecto = false;
+          const dialogRef = this.dialog.open(Login2faComponent, {
+            height: '400px',
+            width: '600px',
+            data: this.verificationCode
+          } as MatDialogConfig);
+          dialogRef.afterClosed().subscribe(code => {
+          });
+        } else if (result.errorCode === 1) {
+          this.incorrecto = true;
+        }
+      });
+    }
 
 
   }
