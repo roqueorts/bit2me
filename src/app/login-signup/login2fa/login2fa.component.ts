@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Login2faService } from './login2fa.service';
-import { Verified } from './verified.model';
+import { Login2fa } from './login2fa.response';
 import { Router } from '@angular/router';
 import { error } from '@angular/compiler/src/util';
 
@@ -27,10 +27,10 @@ export class Login2faComponent implements OnInit {
 
   verificar() {
     console.log(this.code);
-    this.login2faservice.verification(this.code).subscribe((result: Verified) => {
+    this.login2faservice.verification(this.code).subscribe((result: Login2fa) => {
       console.log('Resultado verificacion con token: ', result.token);
       if (result.verified) { // Navegaríamos a la home usando token en las headers de las requests
-        this.router.navigate(['/home']); // Se pondría canActivate en el path usando Authservice para que no se pueda entrar directamente
+        this.router.navigate(['/home']); // Se pondría canActivate en el path usando Authservice para que no se pueda entrar
         this.close();
       } else if (result.errorCode === 1) {
         this.incorrecto = true;
