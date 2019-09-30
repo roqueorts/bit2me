@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Login2faComponent } from '../login2fa/login2fa.component';
 import { LoginService } from './login.service';
-import { Login } from './login.model';
+import { Login } from './login.response';
 // import { switchMap } from 'rxjs';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { take, concat } from 'rxjs/operators';
@@ -18,10 +18,11 @@ export class LoginComponent implements OnInit {
 
   public typeInput: string;
   public fontIcon: string;
-  public loginForm;
+  public loginForm: FormGroup;
   public emailFormControl;
   public incorrecto: boolean;
   public tituloLogin: string;
+  public mensajeError: string;
   tituloLogin$: Observable<string>;
 
   private result: boolean;
@@ -46,15 +47,8 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Otra forma de coger las traducciones
-    this.tituloLogin$ = this.translate.stream('tituloLogin');
 
-    /*  Otra:
-     this.translate.get('tituloLogin').pipe(take(1)).subscribe(tituloLogin => this.tituloLogin = tituloLogin);
-     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-       this.tituloLogin = event.translations.tituloLogin;
-       // this.translate.get('tituloLogin').pipe(take(1)).subscribe(tituloLogin => this.tituloLogin = tituloLogin);
-     });*/
+    this.translate.stream('tituloLogin').subscribe(result => this.tituloLogin = result);
   }
 
   get email() { return this.loginForm.get('email'); }
@@ -87,9 +81,8 @@ export class LoginComponent implements OnInit {
         } else if (result.errorCode === 1) {
           this.incorrecto = true;
         }
-      });
+      }
+      );
     }
-
-
   }
 }

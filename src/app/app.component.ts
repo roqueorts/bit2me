@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { take } from 'rxjs/operators';
 
@@ -17,6 +17,7 @@ export class AppComponent {
 
   public idiomas: Idioma[];
   public activeLang;
+  public cambia = new EventEmitter<string>();
 
   constructor(private translate: TranslateService) {
     this.activeLang = 'es';
@@ -26,6 +27,7 @@ export class AppComponent {
 
   cambiar() {
     this.translate.use(this.activeLang);
+    this.cambia.emit(this.activeLang);
     this.translate.get('idiomas').pipe(take(1)).subscribe(idiomas => this.idiomas = idiomas);
   }
 }

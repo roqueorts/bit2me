@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { CommonFunctionsService } from '../shared/services/common-functions.service';
+import { CommonFunctionsService } from '../../shared/services/common-functions.service';
 import { Signup } from './signup.model';
 import { catchError } from 'rxjs/operators';
 
