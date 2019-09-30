@@ -16,6 +16,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
+import { element } from 'protractor';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -128,7 +129,13 @@ describe('LoginComponent', () => {
     component.onSubmit(loginData);
     expect(spyDialog).toHaveBeenCalled();
   });
+  it('ngOnInit: tituloLogin debe estar en un h2', () => {
 
+    const compiled = fixture.debugElement.nativeElement;
+    const elemento: HTMLElement = fixture.debugElement.query(By.css('h2')).nativeElement;
+    expect(elemento.innerHTML).toContain('tituloLogin');
+    expect(compiled.querySelector('h2').textContent).toContain('tituloLogin');
+  });
 
 
 });

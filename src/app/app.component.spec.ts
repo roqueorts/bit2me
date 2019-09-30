@@ -6,8 +6,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppMaterialModule } from './shared/app-material.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { take } from 'rxjs/operators';
-import { By } from '@angular/platform-browser';
 
 describe('AppComponent', () => {
   let fixture;
@@ -36,6 +34,7 @@ describe('AppComponent', () => {
 
     fixture = TestBed.createComponent(AppComponent);
     app = fixture.debugElement.componentInstance;
+    fixture.detectChanges();
   }
   ));
 
@@ -53,10 +52,9 @@ describe('AppComponent', () => {
     app.cambia.subscribe(activeLang => {
       newActiveLang = activeLang;
     });
-
+    app.activeLang = 'en';
     app.cambiar();
-    expect(newActiveLang).toEqual('es');
-
+    expect(newActiveLang).toEqual('en');
   });
 
 });

@@ -1,3 +1,13 @@
+Para instalar la aplicación ejecutar npm install
+Para ejecutar ng serve -o
+Los mocks están en la carpeta assets.
+Si se desea una verificación correcta para cualquier componente se modificará su correspondiente json a:
+"verified": true, o "registered": true en el caso de signup
+"errorCode": 0
+Si de lo contrario se desea una verificación incorrecta:
+"verified": false,
+"errorCode": 1
+
 # Bit2me
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.4.
